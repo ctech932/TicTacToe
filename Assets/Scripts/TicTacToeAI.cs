@@ -76,10 +76,8 @@ public class TicTacToeAI : MonoBehaviour
     {
 		if (!_isPlayerTurn)
         {
-			
 			//Debug.Log("AI turn");
-			AiSelects(0, 0);
-			DisplayBoardState();
+			AiStrategy();
 
 			//Give turn back to human player
 			_isPlayerTurn = true;
@@ -145,4 +143,25 @@ public class TicTacToeAI : MonoBehaviour
         }
 		*/
     }
+
+	private void AiStrategy()
+    {
+		// STRATEGY 1: DUMB AI, AI just plays wherever a spot is available
+		
+		bool hasFoundSpot = false;
+
+		for (int i = 0; i < _gridSize; i++)
+		{
+			for (int j = 0; j < _gridSize; j++)
+			{
+				if (boardState[i,j] == TicTacToeState.none && hasFoundSpot == false)
+                {
+					hasFoundSpot = true;
+					AiSelects(i, j);
+                }
+			}
+		}
+
+		DisplayBoardState();
+	}
 }

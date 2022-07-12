@@ -19,7 +19,7 @@ public class TicTacToeAI : MonoBehaviour
 	TicTacToeState[,] boardState;
 
 	[SerializeField]
-	private bool _isPlayerTurn;
+	public bool _isPlayerTurn;
 
 	[SerializeField]
 	private int _gridSize = 3;
@@ -48,7 +48,47 @@ public class TicTacToeAI : MonoBehaviour
 		}
 	}
 
-	public void StartAI(int AILevel){
+    private void Start()
+    {
+		//Initialize boardState
+		boardState = new TicTacToeState[_gridSize, _gridSize];
+		//DisplayBoardState();
+
+		//Initialize AI state (cross or circle)
+		if (playerState == TicTacToeState.circle)
+        {
+			aiState = TicTacToeState.cross;
+        }
+		else if (playerState == TicTacToeState.cross)
+        {
+			aiState = TicTacToeState.circle;
+        }
+		else
+        {
+			aiState = TicTacToeState.none;
+        }
+
+		//The player starts
+		_isPlayerTurn = true;
+    }
+
+    private void Update()
+    {
+		if (!_isPlayerTurn)
+        {
+			
+			//Debug.Log("AI turn");
+			AiSelects(0, 0);
+			DisplayBoardState();
+
+			//Give turn back to human player
+			_isPlayerTurn = true;
+        }
+
+
+    }
+
+    public void StartAI(int AILevel){
 		_aiLevel = AILevel;
 		StartGame();
 	}
@@ -67,11 +107,16 @@ public class TicTacToeAI : MonoBehaviour
 	public void PlayerSelects(int coordX, int coordY){
 
 		SetVisual(coordX, coordY, playerState);
+		Debug.Log("Player playing");
+		boardState[coordX, coordY] = playerState;
+		//DisplayBoardState();
 	}
 
 	public void AiSelects(int coordX, int coordY){
 
 		SetVisual(coordX, coordY, aiState);
+		Debug.Log("AI playing");
+		boardState[coordX, coordY] = aiState;
 	}
 
 	private void SetVisual(int coordX, int coordY, TicTacToeState targetState)
@@ -82,4 +127,22 @@ public class TicTacToeAI : MonoBehaviour
 			Quaternion.identity
 		);
 	}
+
+	private void DisplayBoardState()
+    {
+		for (int i=0; i < _gridSize; i++)
+        {
+			for (int j = 0; j < _gridSize; j++)
+			{
+				Debug.Log("boardState[" + i + "," + j + "]=" + boardState[i, j]);
+            }
+        }
+
+		/*
+		foreach (TicTacToeState state in boardState)
+        {
+			Debug.Log(state);
+        }
+		*/
+    }
 }

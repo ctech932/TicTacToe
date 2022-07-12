@@ -26,7 +26,7 @@ public class ClickTrigger : MonoBehaviour
 		_ai.onPlayerWin.AddListener((win) => SetInputEndabled(false));
 	}
 
-	private void SetInputEndabled(bool val){
+    private void SetInputEndabled(bool val){
 		canClick = val;
 	}
 
@@ -38,8 +38,17 @@ public class ClickTrigger : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		if(canClick){
+		if(canClick && _ai._isPlayerTurn == true){
+			Debug.Log("canclick");
 			_ai.PlayerSelects(_myCoordX, _myCoordY);
+			
+			//Once clicked, can't be clicked anymore
+			canClick = false;
+			//Debug.Log(_myCoordX);
+			//Debug.Log(_myCoordY);
+
+			//Give turn to AI player
+			_ai._isPlayerTurn = false;
 		}
 	}
 }

@@ -38,17 +38,22 @@ public class ClickTrigger : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		if(canClick && _ai._isPlayerTurn == true){
-			Debug.Log("canclick");
-			_ai.PlayerSelects(_myCoordX, _myCoordY);
-			
-			//Once clicked, can't be clicked anymore
-			canClick = false;
-			//Debug.Log(_myCoordX);
-			//Debug.Log(_myCoordY);
+		if (_ai.boardState[_myCoordX, _myCoordY] == TicTacToeState.none)
+        {
+			if (canClick && _ai._isPlayerTurn == true)
+			{
+				Debug.Log("canclick");
+				_ai.PlayerSelects(_myCoordX, _myCoordY);
 
-			//Give turn to AI player
-			_ai._isPlayerTurn = false;
+				//Once clicked, can't be clicked anymore
+				canClick = false;
+				//Debug.Log(_myCoordX);
+				//Debug.Log(_myCoordY);
+
+				//Give turn to AI player
+				_ai._isPlayerTurn = false;
+			}
 		}
+
 	}
 }

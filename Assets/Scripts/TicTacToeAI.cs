@@ -16,7 +16,7 @@ public class TicTacToeAI : MonoBehaviour
 
 	int _aiLevel;
 
-	TicTacToeState[,] boardState;
+	public TicTacToeState[,] boardState;
 
 	[SerializeField]
 	public bool _isPlayerTurn;

@@ -157,14 +157,16 @@ public class TicTacToeAI : MonoBehaviour
 		/*
 		AiStrategyDumb();		
 
-		DisplayBoardState();
+		//DisplayBoardState();
 		*/
 
 		// STRATEGY 2
 		int counterHorizontal0 = 0, counterHorizontal1 = 0, counterHorizontal2 = 0;
 		int counterVertical0 = 0, counterVertical1 = 0, counterVertical2 = 0;
+		int counterDiagTB = 0, counterDiagBT = 0;
 		int bestI = -1, finalCounterHorizontal = -1;
 		int bestJ = -1, finalCounterVertical = -1;
+		int finalCounterDiag = -1;
 		for (int i = 0; i < _gridSize; i++)
 		{
 			for (int j = 0; j < _gridSize; j++)
@@ -178,6 +180,14 @@ public class TicTacToeAI : MonoBehaviour
 					if (j == 0) { counterVertical0 += 1; }
 					else if (j == 1) { counterVertical1 += 1; }
 					else if (j == 2) { counterVertical2 += 1; }
+
+					if (i == j) { counterDiagTB += 1; }
+
+					if ( ((i==2)&&(j==0)) || ((i == 1)&&(j == 1)) || ((i == 0)&&(j == 2)))
+                    {
+						counterDiagBT += 1;
+                    }
+
 				}
 			}
 		}
@@ -214,10 +224,49 @@ public class TicTacToeAI : MonoBehaviour
 			finalCounterVertical = counterVertical2;
 		}
 
+
 		if (bestI == -1 && bestJ == -1)
         {
 			AiStrategyDumb();
         }
+		else if (counterDiagTB >= finalCounterHorizontal && counterDiagTB >= finalCounterVertical && counterDiagTB >= counterDiagBT )
+        {
+			if (boardState[0, 0] == TicTacToeState.none)
+			{
+				AiSelects(0, 0);
+			}
+			else if (boardState[1, 1] == TicTacToeState.none)
+            {
+				AiSelects(1, 1);
+            }
+			else if (boardState[2, 2] == TicTacToeState.none)
+            {
+				AiSelects(2, 2);
+            }
+			else
+            {
+				AiStrategyDumb();
+			}						
+		}
+		else if (counterDiagBT >= finalCounterHorizontal && counterDiagBT >= finalCounterVertical && counterDiagBT >= counterDiagTB)
+        {
+			if (boardState[2, 0] == TicTacToeState.none)
+			{
+				AiSelects(2, 0);
+			}
+			else if (boardState[1, 1] == TicTacToeState.none)
+			{
+				AiSelects(1, 1);
+			}
+			else if (boardState[0, 2] == TicTacToeState.none)
+			{
+				AiSelects(0, 2);
+			}
+			else
+			{
+				AiStrategyDumb();
+			}
+		}
 		else if (finalCounterHorizontal >= finalCounterVertical)
         {
 			if (boardState[bestI, 0] == TicTacToeState.none)

@@ -42,7 +42,6 @@ public class ClickTrigger : MonoBehaviour
         {
 			if (canClick && _ai._isPlayerTurn == true)
 			{
-				Debug.Log("canclick");
 				_ai.PlayerSelects(_myCoordX, _myCoordY);
 
 				//Once clicked, can't be clicked anymore (redundant though..)

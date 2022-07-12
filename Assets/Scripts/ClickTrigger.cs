@@ -45,7 +45,7 @@ public class ClickTrigger : MonoBehaviour
 				Debug.Log("canclick");
 				_ai.PlayerSelects(_myCoordX, _myCoordY);
 
-				//Once clicked, can't be clicked anymore
+				//Once clicked, can't be clicked anymore (redundant though..)
 				canClick = false;
 				//Debug.Log(_myCoordX);
 				//Debug.Log(_myCoordY);

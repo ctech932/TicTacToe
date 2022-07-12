@@ -148,20 +148,30 @@ public class TicTacToeAI : MonoBehaviour
     {
 		// STRATEGY 1: DUMB AI, AI just plays wherever a spot is available
 		
+		AiStrategyDumb();		
+
+		DisplayBoardState();
+		
+
+		// STRATEGY 2
+
+
+	}
+
+	private void AiStrategyDumb()
+    {
 		bool hasFoundSpot = false;
 
 		for (int i = 0; i < _gridSize; i++)
 		{
 			for (int j = 0; j < _gridSize; j++)
 			{
-				if (boardState[i,j] == TicTacToeState.none && hasFoundSpot == false)
-                {
+				if (boardState[i, j] == TicTacToeState.none && hasFoundSpot == false)
+				{
 					hasFoundSpot = true;
 					AiSelects(i, j);
-                }
+				}
 			}
 		}
-
-		DisplayBoardState();
 	}
 }

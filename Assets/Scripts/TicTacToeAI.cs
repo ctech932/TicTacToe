@@ -40,6 +40,8 @@ public class TicTacToeAI : MonoBehaviour
 	public WinnerEvent onPlayerWin;
 
 	ClickTrigger[,] _triggers;
+
+	private int numberOfPlayerTurns = 0;
 	
 	private void Awake()
 	{
@@ -77,6 +79,11 @@ public class TicTacToeAI : MonoBehaviour
 		if (!_isPlayerTurn)
         {
 			//Debug.Log("AI turn");
+
+			//Update count of human players turns
+			numberOfPlayerTurns += 1;
+
+			//AI plays
 			AiStrategy();
 
 			//Give turn back to human player
@@ -147,14 +154,112 @@ public class TicTacToeAI : MonoBehaviour
 	private void AiStrategy()
     {
 		// STRATEGY 1: DUMB AI, AI just plays wherever a spot is available
-		
+		/*
 		AiStrategyDumb();		
 
 		DisplayBoardState();
-		
+		*/
 
 		// STRATEGY 2
+		int counterHorizontal0 = 0, counterHorizontal1 = 0, counterHorizontal2 = 0;
+		int counterVertical0 = 0, counterVertical1 = 0, counterVertical2 = 0;
+		int bestI = -1, finalCounterHorizontal = -1;
+		int bestJ = -1, finalCounterVertical = -1;
+		for (int i = 0; i < _gridSize; i++)
+		{
+			for (int j = 0; j < _gridSize; j++)
+			{
+				if (boardState[i, j] == playerState)
+				{
+					if (i == 0) { counterHorizontal0 += 1; }
+					else if (i == 1) { counterHorizontal1 += 1; }
+					else if (i == 2) { counterHorizontal2 += 1; }
 
+					if (j == 0) { counterVertical0 += 1; }
+					else if (j == 1) { counterVertical1 += 1; }
+					else if (j == 2) { counterVertical2 += 1; }
+				}
+			}
+		}
+
+		if (counterHorizontal0 >= counterHorizontal1 && counterHorizontal0 >= counterHorizontal2)
+        {
+			bestI = 0;
+			finalCounterHorizontal = counterHorizontal0;
+        }
+		else if (counterHorizontal1 >= counterHorizontal0 && counterHorizontal1 >= counterHorizontal2)
+        {
+			bestI = 1;
+			finalCounterHorizontal = counterHorizontal1;
+        }
+		else if (counterHorizontal2 >= counterHorizontal0 && counterHorizontal2 >= counterHorizontal1)
+        {
+			bestI = 2;
+			finalCounterHorizontal = counterHorizontal2;
+        }
+
+		if (counterVertical0 >= counterVertical1 && counterVertical0 >= counterVertical2)
+		{
+			bestJ = 0;
+			finalCounterVertical = counterVertical0;
+		}
+		else if (counterVertical1 >= counterVertical0 && counterVertical1 >= counterVertical2)
+		{
+			bestJ = 1;
+			finalCounterVertical = counterVertical1;
+		}
+		else if (counterVertical2 >= counterVertical0 && counterVertical2 >= counterVertical1)
+		{
+			bestJ = 2;
+			finalCounterVertical = counterVertical2;
+		}
+
+		if (bestI == -1 && bestJ == -1)
+        {
+			AiStrategyDumb();
+        }
+		else if (finalCounterHorizontal >= finalCounterVertical)
+        {
+			if (boardState[bestI, 0] == TicTacToeState.none)
+            {
+				AiSelects(bestI, 0);
+            }
+			else if (boardState[bestI, 1] == TicTacToeState.none)
+            {
+				AiSelects(bestI, 1);
+            }
+			else if (boardState[bestI, 2] == TicTacToeState.none)
+            {
+				AiSelects(bestI, 2);
+            }
+            else
+            {
+				AiStrategyDumb();
+            }
+        }
+		else if (finalCounterVertical >= finalCounterHorizontal)
+        {
+			if (boardState[0, bestJ] == TicTacToeState.none)
+			{
+				AiSelects(0, bestJ);
+			}
+			else if (boardState[1, bestJ] == TicTacToeState.none)
+			{
+				AiSelects(1, bestJ);
+			}
+			else if (boardState[2, bestJ] == TicTacToeState.none)
+			{
+				AiSelects(2, bestJ);
+			}
+			else
+			{
+				AiStrategyDumb();
+			}
+		}
+		else
+        {
+			AiStrategyDumb();
+        }
 
 	}
 
@@ -174,4 +279,5 @@ public class TicTacToeAI : MonoBehaviour
 			}
 		}
 	}
+
 }

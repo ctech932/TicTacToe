@@ -76,14 +76,27 @@ public class TicTacToeAI : MonoBehaviour
     {
 		if (!_isPlayerTurn)
         {
-			//Debug.Log("AI turn");
-
+			// Tests if player has won
+			if (isAWinner(playerState))
+            {
+				onPlayerWin.Invoke(0);
+				Debug.Log("Player wins");
+            }
+			
 			//AI plays
 			AiStrategy();
 
-			//Give turn back to human player
+			//Tests if AI has won
+			if (isAWinner(aiState))
+			{
+				onPlayerWin.Invoke(1);
+				Debug.Log("AI wins");
+			}
+
+			//Gives turn back to human player
 			_isPlayerTurn = true;
-        }
+
+		}
 
 
     }
@@ -451,6 +464,47 @@ public class TicTacToeAI : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	private bool isAWinner(TicTacToeState testedState)
+	{
+		if (boardState[0, 0] == testedState && boardState[0, 1] == testedState && boardState[0, 2] == testedState)
+        {
+			return true;
+        }	
+		else if (boardState[1, 0] == testedState && boardState[1, 1] == testedState && boardState[1, 2] == testedState)
+        {
+			return true;
+		}
+		else if (boardState[2, 0] == testedState && boardState[2, 1] == testedState && boardState[2, 2] == testedState)
+        {
+			return true;
+		}
+		else if (boardState[0, 0] == testedState && boardState[1, 0] == testedState && boardState[2, 0] == testedState)
+        {
+			return true;
+		}
+		else if (boardState[0, 1] == testedState && boardState[1, 1] == testedState && boardState[2, 1] == testedState)
+        {
+			return true;
+		}
+		else if (boardState[0, 2] == testedState && boardState[1, 2] == testedState && boardState[2, 2] == testedState)
+        {
+			return true;
+		}
+		else if (boardState[0, 0] == testedState && boardState[1, 1] == testedState && boardState[2, 2] == testedState)
+        {
+			return true;
+		}
+		else if (boardState[2, 0] == testedState && boardState[1, 1] == testedState && boardState[0, 2] == testedState)
+        {
+			return true;
+		}
+		else
+        {
+			return false;
+        }
+
 	}
 
 }

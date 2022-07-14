@@ -154,19 +154,22 @@ public class TicTacToeAI : MonoBehaviour
 	private void AiStrategy()
     {
 		// STRATEGY 1: DUMB AI, AI just plays wherever a spot is available
-		/*
-		AiStrategyDumb();		
+		if (_aiLevel == 0)
+        {
+			AiStrategyDumb();
+			//DisplayBoardState();
+		}
 
-		//DisplayBoardState();
-		*/
 
 		// STRATEGY 2
-
-		bool testCanAiWin;
-		testCanAiWin = CanAiWin();
-		if (testCanAiWin == false)
+		if (_aiLevel == 1)
         {
-			AiSemiBlockingStrategy();
+			bool testCanAiWin;
+			testCanAiWin = CanAiWin();
+			if (testCanAiWin == false)
+			{
+				AiSemiBlockingStrategy();
+			}
 		}
 
 	}

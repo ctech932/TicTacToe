@@ -161,7 +161,7 @@ public class TicTacToeAI : MonoBehaviour
 		}
 
 
-		// STRATEGY 2
+		// STRATEGY 2 : AI first looks for an immediate win. If there isn't, it tries to block the human player.
 		if (_aiLevel == 1)
         {
 			bool testCanAiWin;

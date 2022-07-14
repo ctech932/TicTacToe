@@ -161,12 +161,36 @@ public class TicTacToeAI : MonoBehaviour
 		*/
 
 		// STRATEGY 2
+
+		AiSemiBlockingStrategy();
+
+	}
+
+	private void AiStrategyDumb()
+    {
+		bool hasFoundSpot = false;
+
+		for (int i = 0; i < _gridSize; i++)
+		{
+			for (int j = 0; j < _gridSize; j++)
+			{
+				if (boardState[i, j] == TicTacToeState.none && hasFoundSpot == false)
+				{
+					hasFoundSpot = true;
+					AiSelects(i, j);
+				}
+			}
+		}
+	}
+
+	private void AiSemiBlockingStrategy()
+    {
 		int counterHorizontal0 = 0, counterHorizontal1 = 0, counterHorizontal2 = 0;
 		int counterVertical0 = 0, counterVertical1 = 0, counterVertical2 = 0;
 		int counterDiagTB = 0, counterDiagBT = 0;
 		int bestI = -1, finalCounterHorizontal = -1;
 		int bestJ = -1, finalCounterVertical = -1;
-		int finalCounterDiag = -1;
+
 		for (int i = 0; i < _gridSize; i++)
 		{
 			for (int j = 0; j < _gridSize; j++)
@@ -183,30 +207,30 @@ public class TicTacToeAI : MonoBehaviour
 
 					if (i == j) { counterDiagTB += 1; }
 
-					if ( ((i==2)&&(j==0)) || ((i == 1)&&(j == 1)) || ((i == 0)&&(j == 2)))
-                    {
+					if (((i == 2) && (j == 0)) || ((i == 1) && (j == 1)) || ((i == 0) && (j == 2)))
+					{
 						counterDiagBT += 1;
-                    }
+					}
 
 				}
 			}
 		}
 
 		if (counterHorizontal0 >= counterHorizontal1 && counterHorizontal0 >= counterHorizontal2)
-        {
+		{
 			bestI = 0;
 			finalCounterHorizontal = counterHorizontal0;
-        }
+		}
 		else if (counterHorizontal1 >= counterHorizontal0 && counterHorizontal1 >= counterHorizontal2)
-        {
+		{
 			bestI = 1;
 			finalCounterHorizontal = counterHorizontal1;
-        }
+		}
 		else if (counterHorizontal2 >= counterHorizontal0 && counterHorizontal2 >= counterHorizontal1)
-        {
+		{
 			bestI = 2;
 			finalCounterHorizontal = counterHorizontal2;
-        }
+		}
 
 		if (counterVertical0 >= counterVertical1 && counterVertical0 >= counterVertical2)
 		{
@@ -226,30 +250,30 @@ public class TicTacToeAI : MonoBehaviour
 
 
 		if (bestI == -1 && bestJ == -1)
-        {
+		{
 			AiStrategyDumb();
-        }
-		else if (counterDiagTB >= finalCounterHorizontal && counterDiagTB >= finalCounterVertical && counterDiagTB >= counterDiagBT )
-        {
+		}
+		else if (counterDiagTB >= finalCounterHorizontal && counterDiagTB >= finalCounterVertical && counterDiagTB >= counterDiagBT)
+		{
 			if (boardState[0, 0] == TicTacToeState.none)
 			{
 				AiSelects(0, 0);
 			}
 			else if (boardState[1, 1] == TicTacToeState.none)
-            {
+			{
 				AiSelects(1, 1);
-            }
+			}
 			else if (boardState[2, 2] == TicTacToeState.none)
-            {
+			{
 				AiSelects(2, 2);
-            }
+			}
 			else
-            {
+			{
 				AiStrategyDumb();
-			}						
+			}
 		}
 		else if (counterDiagBT >= finalCounterHorizontal && counterDiagBT >= finalCounterVertical && counterDiagBT >= counterDiagTB)
-        {
+		{
 			if (boardState[2, 0] == TicTacToeState.none)
 			{
 				AiSelects(2, 0);
@@ -268,26 +292,26 @@ public class TicTacToeAI : MonoBehaviour
 			}
 		}
 		else if (finalCounterHorizontal >= finalCounterVertical)
-        {
+		{
 			if (boardState[bestI, 0] == TicTacToeState.none)
-            {
+			{
 				AiSelects(bestI, 0);
-            }
+			}
 			else if (boardState[bestI, 1] == TicTacToeState.none)
-            {
+			{
 				AiSelects(bestI, 1);
-            }
+			}
 			else if (boardState[bestI, 2] == TicTacToeState.none)
-            {
+			{
 				AiSelects(bestI, 2);
-            }
-            else
-            {
+			}
+			else
+			{
 				AiStrategyDumb();
-            }
-        }
+			}
+		}
 		else if (finalCounterVertical >= finalCounterHorizontal)
-        {
+		{
 			if (boardState[0, bestJ] == TicTacToeState.none)
 			{
 				AiSelects(0, bestJ);
@@ -306,26 +330,8 @@ public class TicTacToeAI : MonoBehaviour
 			}
 		}
 		else
-        {
-			AiStrategyDumb();
-        }
-
-	}
-
-	private void AiStrategyDumb()
-    {
-		bool hasFoundSpot = false;
-
-		for (int i = 0; i < _gridSize; i++)
 		{
-			for (int j = 0; j < _gridSize; j++)
-			{
-				if (boardState[i, j] == TicTacToeState.none && hasFoundSpot == false)
-				{
-					hasFoundSpot = true;
-					AiSelects(i, j);
-				}
-			}
+			AiStrategyDumb();
 		}
 	}
 

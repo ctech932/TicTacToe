@@ -40,6 +40,8 @@ public class TicTacToeAI : MonoBehaviour
 	public WinnerEvent onPlayerWin;
 
 	ClickTrigger[,] _triggers;
+
+	private bool isGameOver = false;
 	
 	private void Awake()
 	{
@@ -77,38 +79,26 @@ public class TicTacToeAI : MonoBehaviour
 		if (!_isPlayerTurn)
         {
 			// Tests if player has won
-			if (isAWinner(playerState))
-            {
-				onPlayerWin.Invoke(0);
-				Debug.Log("Player wins");
-            }
+			testPlayerWon(); 
 
 			// Tests if Tie situation
-			if (isBoardFull())
-            {
-				onPlayerWin.Invoke(-1);
-				Debug.Log("Tie situation 1");
-            }
-			
+			if (!isGameOver)
+				testTieSituation();
+
 			//AI plays
-			AiStrategy();
+			if (!isGameOver)
+				AiStrategy();
 
 			//Tests if AI has won
-			if (isAWinner(aiState))
-			{
-				onPlayerWin.Invoke(1);
-				Debug.Log("AI wins");
-			}
+			testAIWon();
 
 			// Tests if Tie situation
-			if (isBoardFull())
-			{
-				onPlayerWin.Invoke(-1);
-				Debug.Log("Tie situation 2");
-			}
+			if (!isGameOver)
+				testTieSituation();
 
 			//Gives turn back to human player
-			_isPlayerTurn = true;
+			if (!isGameOver)
+				_isPlayerTurn = true;
 
 		}
 
@@ -535,6 +525,37 @@ public class TicTacToeAI : MonoBehaviour
 		}
 
 		return true;
+	}
+
+
+	private void testTieSituation()
+    {
+		if (isBoardFull())
+		{
+			onPlayerWin.Invoke(-1);
+			Debug.Log("Tie situation");
+			isGameOver = true;
+		}
+	}
+
+	private void testPlayerWon()
+    {
+		if (isAWinner(playerState))
+		{
+			onPlayerWin.Invoke(0);
+			Debug.Log("Player wins");
+			isGameOver = true;
+		}
+	}
+
+	private void testAIWon()
+    {
+		if (isAWinner(aiState))
+		{
+			onPlayerWin.Invoke(1);
+			Debug.Log("AI wins");
+			isGameOver = true;
+		}
 	}
 
 }

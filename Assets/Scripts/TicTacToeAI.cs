@@ -82,6 +82,13 @@ public class TicTacToeAI : MonoBehaviour
 				onPlayerWin.Invoke(0);
 				Debug.Log("Player wins");
             }
+
+			// Tests if Tie situation
+			if (isBoardFull())
+            {
+				onPlayerWin.Invoke(-1);
+				Debug.Log("Tie situation 1");
+            }
 			
 			//AI plays
 			AiStrategy();
@@ -91,6 +98,13 @@ public class TicTacToeAI : MonoBehaviour
 			{
 				onPlayerWin.Invoke(1);
 				Debug.Log("AI wins");
+			}
+
+			// Tests if Tie situation
+			if (isBoardFull())
+			{
+				onPlayerWin.Invoke(-1);
+				Debug.Log("Tie situation 2");
 			}
 
 			//Gives turn back to human player
@@ -505,6 +519,22 @@ public class TicTacToeAI : MonoBehaviour
 			return false;
         }
 
+	}
+
+	private bool isBoardFull()
+    {
+		for (int i = 0; i < _gridSize; i++)
+		{
+			for (int j = 0; j < _gridSize; j++)
+			{
+				if (boardState[i, j] == TicTacToeState.none)
+                {
+					return false;
+                }
+			}
+		}
+
+		return true;
 	}
 
 }

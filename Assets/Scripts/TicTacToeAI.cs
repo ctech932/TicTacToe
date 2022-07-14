@@ -40,8 +40,6 @@ public class TicTacToeAI : MonoBehaviour
 	public WinnerEvent onPlayerWin;
 
 	ClickTrigger[,] _triggers;
-
-	private int numberOfPlayerTurns = 0;
 	
 	private void Awake()
 	{
@@ -79,9 +77,6 @@ public class TicTacToeAI : MonoBehaviour
 		if (!_isPlayerTurn)
         {
 			//Debug.Log("AI turn");
-
-			//Update count of human players turns
-			numberOfPlayerTurns += 1;
 
 			//AI plays
 			AiStrategy();

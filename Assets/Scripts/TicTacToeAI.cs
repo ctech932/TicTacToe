@@ -162,7 +162,12 @@ public class TicTacToeAI : MonoBehaviour
 
 		// STRATEGY 2
 
-		AiSemiBlockingStrategy();
+		bool testCanAiWin;
+		testCanAiWin = CanAiWin();
+		if (testCanAiWin == false)
+        {
+			AiSemiBlockingStrategy();
+		}
 
 	}
 
@@ -333,6 +338,121 @@ public class TicTacToeAI : MonoBehaviour
 		{
 			AiStrategyDumb();
 		}
+	}
+
+	private bool CanAiWin()
+    {
+		// Test horizontal lines		
+		for (int i = 0; i < _gridSize; i++)
+		{
+			if (boardState[i,0] == aiState && boardState[i, 1] == aiState)
+            {
+				if (boardState[i,2] == TicTacToeState.none)
+                {
+					AiSelects(i, 2);
+					return true;
+                }
+            }
+			else if (boardState[i, 0] == aiState && boardState[i, 2] == aiState)
+            {
+				if (boardState[i, 1] == TicTacToeState.none)
+				{
+					AiSelects(i, 1);
+					return true;
+				}
+			}
+			else if (boardState[i, 1] == aiState && boardState[i, 2] == aiState)
+            {
+				if (boardState[i, 0] == TicTacToeState.none)
+				{
+					AiSelects(i, 0);
+					return true;
+				}
+			}
+		}
+
+		// Test vertical lines		
+		for (int j = 0; j < _gridSize; j++)
+		{
+			if (boardState[0, j] == aiState && boardState[1, j] == aiState)
+			{
+				if (boardState[2, j] == TicTacToeState.none)
+				{
+					AiSelects(2, j);
+					return true;
+				}
+			}
+			else if (boardState[0, j] == aiState && boardState[2, j] == aiState)
+			{
+				if (boardState[1, j] == TicTacToeState.none)
+				{
+					AiSelects(1, j);
+					return true;
+				}
+			}
+			else if (boardState[1, j] == aiState && boardState[2, j] == aiState)
+			{
+				if (boardState[0, j] == TicTacToeState.none)
+				{
+					AiSelects(0, j);
+					return true;
+				}
+			}
+		}
+
+		//Test horizontal line top-to-bottom
+		if (boardState[0, 0] == aiState && boardState[1, 1] == aiState)
+        {
+			if (boardState[2, 2] == TicTacToeState.none)
+            {
+				AiSelects(2, 2);
+				return true;
+            }
+        }
+		else if (boardState[0, 0] == aiState && boardState[2, 2] == aiState)
+        {
+			if (boardState[1, 1] == TicTacToeState.none)
+			{
+				AiSelects(1, 1);
+				return true;
+			}
+		}			
+		else if (boardState[1, 1] == aiState && boardState[2, 2] == aiState)
+        {
+			if (boardState[0, 0] == TicTacToeState.none)
+			{
+				AiSelects(0, 0);
+				return true;
+			}
+		}
+
+		//Test horizontal line bottom-to-top
+		if (boardState[2, 0] == aiState && boardState[1, 1] == aiState)
+		{
+			if (boardState[0, 2] == TicTacToeState.none)
+			{
+				AiSelects(0, 2);
+				return true;
+			}
+		}
+		else if (boardState[2, 0] == aiState && boardState[0, 2] == aiState)
+		{
+			if (boardState[1, 1] == TicTacToeState.none)
+			{
+				AiSelects(1, 1);
+				return true;
+			}
+		}
+		else if (boardState[1, 1] == aiState && boardState[0, 2] == aiState)
+		{
+			if (boardState[2, 0] == TicTacToeState.none)
+			{
+				AiSelects(2, 0);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

@@ -124,7 +124,7 @@ public class TicTacToeAI : MonoBehaviour
 	public void PlayerSelects(int coordX, int coordY){
 
 		SetVisual(coordX, coordY, playerState);
-		Debug.Log("Player playing");
+		//Debug.Log("Player playing");
 		boardState[coordX, coordY] = playerState;
 		//DisplayBoardState();
 	}
@@ -132,7 +132,7 @@ public class TicTacToeAI : MonoBehaviour
 	public void AiSelects(int coordX, int coordY){
 
 		SetVisual(coordX, coordY, aiState);
-		Debug.Log("AI playing");
+		//Debug.Log("AI playing");
 		boardState[coordX, coordY] = aiState;
 	}
 
@@ -533,7 +533,7 @@ public class TicTacToeAI : MonoBehaviour
 		if (isBoardFull())
 		{
 			onPlayerWin.Invoke(-1);
-			Debug.Log("Tie situation");
+			//Debug.Log("Tie situation");
 			isGameOver = true;
 		}
 	}
@@ -543,7 +543,7 @@ public class TicTacToeAI : MonoBehaviour
 		if (isAWinner(playerState))
 		{
 			onPlayerWin.Invoke(0);
-			Debug.Log("Player wins");
+			//Debug.Log("Player wins");
 			isGameOver = true;
 		}
 	}
@@ -553,7 +553,7 @@ public class TicTacToeAI : MonoBehaviour
 		if (isAWinner(aiState))
 		{
 			onPlayerWin.Invoke(1);
-			Debug.Log("AI wins");
+			//Debug.Log("AI wins");
 			isGameOver = true;
 		}
 	}

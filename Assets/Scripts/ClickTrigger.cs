@@ -51,6 +51,7 @@ public class ClickTrigger : MonoBehaviour
 
 				//Give turn to AI player
 				_ai._isPlayerTurn = false;
+				_ai._hasAIPlayed = false;
 			}
 		}
 

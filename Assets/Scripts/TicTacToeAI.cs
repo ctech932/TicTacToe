@@ -42,7 +42,11 @@ public class TicTacToeAI : MonoBehaviour
 	ClickTrigger[,] _triggers;
 
 	private bool isGameOver = false;
-	
+
+	private float delay = 0.5f;
+
+	public bool _hasAIPlayed;
+
 	private void Awake()
 	{
 		if(onPlayerWin == null){
@@ -72,6 +76,7 @@ public class TicTacToeAI : MonoBehaviour
 
 		//The player starts
 		_isPlayerTurn = true;
+		_hasAIPlayed = false;
     }
 
     private void Update()
@@ -85,24 +90,12 @@ public class TicTacToeAI : MonoBehaviour
 			if (!isGameOver)
 				testTieSituation();
 
-			//AI plays
-			if (!isGameOver)
-				AiStrategy();
-
-			//Tests if AI has won
-			testAIWon();
-
-			// Tests if Tie situation
-			if (!isGameOver)
-				testTieSituation();
-
-			//Gives turn back to human player
-			if (!isGameOver)
-				_isPlayerTurn = true;
-
+			// AI plays after a delay
+			if (!_hasAIPlayed)
+            {
+				StartCoroutine(AIPlaysAfterDelay(delay));
+			}
 		}
-
-
     }
 
     public void StartAI(int AILevel){
@@ -558,4 +551,25 @@ public class TicTacToeAI : MonoBehaviour
 		}
 	}
 
+	IEnumerator AIPlaysAfterDelay(float time)
+    {
+		_hasAIPlayed = true;
+
+		yield return new WaitForSeconds(time);
+
+		// AI plays
+		if (!isGameOver)
+			AiStrategy();
+
+		// Tests if AI has won
+		testAIWon();
+
+		// Tests if Tie situation
+		if (!isGameOver)
+			testTieSituation();
+
+		//Gives turn back to human player
+		if (!isGameOver)
+			_isPlayerTurn = true;
+	}
 }
